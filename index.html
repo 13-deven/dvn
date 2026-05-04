@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark" data-dream="false">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dp Universe — Navigation</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header class="dp-header">
+    <nav class="dp-nav" aria-label="Navigation principale">
+      <a href="/" class="dp-logo" aria-label="Retour à l'accueil">DP</a>
+
+      <ul class="nav-primary" role="menubar">
+        <li role="none"><a href="#accueil" role="menuitem" class="nav-link" data-nav="accueil">ACCUEIL</a></li>
+        <li role="none"><a href="#univers" role="menuitem" class="nav-link" data-nav="univers">UNIVERS</a></li>
+        <li role="none" class="nav-dropdown">
+          <button role="menuitem" class="nav-link dropdown-trigger" aria-expanded="false" aria-controls="levels-panel" data-nav="series">SÉRIES ▾</button>
+        </li>
+        <li role="none"><a href="#personnages" role="menuitem" class="nav-link" data-nav="personnages">PERSONNAGES</a></li>
+        <li role="none"><a href="#oeuvres" role="menuitem" class="nav-link" data-nav="oeuvres">ŒUVRES</a></li>
+        <li role="none"><a href="#lisa-nox" role="menuitem" class="nav-link" data-nav="lisa-nox">LISA NOX</a></li>
+        <li role="none"><a href="#boutique" role="menuitem" class="nav-link" data-nav="boutique">BOUTIQUE</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="progress-indicator" title="Progression dans l'univers DP">
+          <span class="progress-label">PROGRÈS</span>
+          <div class="progress-bar"><span class="progress-fill" style="width: 0%;"></span></div>
+          <span class="progress-count">0/13</span>
+        </div>
+        <button class="dream-toggle" aria-label="Basculer Mode Rêve" title="Activer/Desactiver le Mode Rêve 🌙">🌙</button>
+        <button class="mobile-menu-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-primary">☰</button>
+      </div>
+    </nav>
+
+    <!-- PANNEAU INTERACTIF LEVELS / PHOBIES -->
+    <div id="levels-panel" class="levels-panel" role="menu" aria-label="Filtre par Level et Phobie" hidden>
+      <div class="panel-header">
+        <h3>13 LEVELS × 13 PHOBIES</h3>
+        <button class="panel-close" aria-label="Fermer le panneau">✕</button>
+      </div>
+      <div class="levels-grid" id="levels-grid">
+        <!-- Généré dynamiquement par JS pour cohérence canonique -->
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Ton contenu ici -->
+  </main>
+
+  <script src="app.js"></script>
+
+  <!-- Canvas particules oniriques -->
+<canvas id="dream-particles" aria-hidden="true"></canvas>
+
+<!-- Conteneur SPA -->
+<main id="app-router" class="router-container">
+  <div class="route-view">
+    <h2>Bienvenue dans l’Univers dp</h2>
+    <p>Navigue sans recharger. Chaque niveau, chaque série, chaque rêve est une porte.</p>
+  </div>
+</main>
+
+<script src="dream-particles.js"></script>
+<script src="app-router.js"></script>
+<script src="app.js"></script> <!-- Ton fichier existant -->
+
+
+</body>
+</html>
