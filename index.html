@@ -7,7 +7,7 @@
     <meta name="description" content="Portfolio de Deven Phobe - Auteur BD, 2D/3D Artist, FX Cinéma. Découvrez ONIROPHOBIE, 13 LEVELS et les coulisses de la création.">
     <link href="https://cdn.jsdelivr.net/npm/fontsource-space-grotesk@5.1.0/index.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.1.0/index.css" rel="stylesheet">
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <style>
         :root {
             --bg: #0A0A0A;
@@ -46,11 +46,15 @@
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
         
-        .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
-        .particle { position: absolute; border-radius: 50%; background: var(--accent); opacity: 0.3; animation: floatParticle 8s infinite ease-in-out; }
-        @keyframes floatParticle { 0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; } 50% { transform: translateY(-100px) translateX(50px); opacity: 0.6; } }
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding-top: 80px; }
-        .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(123,92,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0,229,178,0.1) 0%, transparent 50%); }
+        /* HERO & PARTICULES FIX */
+        .hero { position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding-top: 80px; }
+        .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(123,92,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0,229,178,0.1) 0%, transparent 50%); z-index: 0; }
+        .hero-particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+        .particle { position: absolute; border-radius: 50%; opacity: 0.4; animation: floatParticle 10s infinite ease-in-out; will-change: transform, opacity; }
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
+            50% { transform: translateY(-120px) translateX(60px) scale(1.5); opacity: 0.7; }
+        }
         .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
         .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(123,92,255,0.1); border: 1px solid rgba(123,92,255,0.3); border-radius: 50px; font-size: 0.85rem; color: var(--accent); margin-bottom: 24px; }
         .hero-tag::before { content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
@@ -64,7 +68,7 @@
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,92,255,0.4); }
         .btn-secondary { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.2); }
         .btn-secondary:hover { border-color: var(--accent); background: rgba(123,92,255,0.1); }
-        .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; opacity: 0.7; }
+        .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; opacity: 0.7; z-index: 2; }
         @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
         
         .section { padding: 120px 0; position: relative; }
@@ -72,50 +76,25 @@
         .section-header h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; }
         .section-header p { color: var(--text-dim); max-width: 600px; margin: 0 auto; }
         
-        .reel-section { background: var(--surface); padding: 80px 0; }
+        /* REEL */
         .reel-wrapper { position: relative; display: flex; align-items: center; gap: 16px; }
-        .reel-carousel {
-                flex: 1; display: flex; gap: 20px; overflow-x: auto;
-                scroll-snap-type: x mandatory; scroll-behavior: smooth;
-                padding: 20px 0; scrollbar-width: none; -ms-overflow-style: none;
-        }
+        .reel-carousel { flex: 1; display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 20px 0; scrollbar-width: none; -ms-overflow-style: none; }
         .reel-carousel::-webkit-scrollbar { display: none; }
-        .reel-btn {
-                flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
-                border: 1px solid rgba(255,255,255,0.15); background: var(--surface);
-                color: var(--text); font-size: 1.8rem; cursor: pointer;
-                display: flex; align-items: center; justify-content: center;
-                transition: all 0.3s; user-select: none; z-index: 10;
-        }
+        .reel-btn { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: var(--surface); color: var(--text); font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; user-select: none; z-index: 10; }
         .reel-btn:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.1); }
         .reel-btn:active { transform: scale(0.95); }
-        .reel-card { scroll-snap-align: center; cursor: pointer; }
-
- .reel-card {
-    flex: 0 0 250px; padding: 12px; background: var(--surface2);
-    border-radius: var(--radius); display: flex; flex-direction: column;
-    gap: 10px; cursor: pointer; transition: transform 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-.reel-card:hover { transform: translateY(-4px); border-color: var(--accent); }
-
-.reel-thumb {
-    width: 100%; height: 140px; object-fit: cover; border-radius: 8px;
-    background: var(--surface3); display: block;
-}
-
-.reel-info { display: flex; flex-direction: column; gap: 4px; }
-.reel-tag { 
-    font-size: 0.7rem; padding: 3px 8px; background: rgba(123,92,255,0.15); 
-    color: var(--accent); border-radius: 4px; align-self: flex-start; font-weight: 600; 
-}
-.reel-title { font-size: 0.9rem; margin: 0; color: var(--text); line-height: 1.3; }
-
+        .reel-section { background: var(--surface); padding: 80px 0; }
+        .reel-card { flex: 0 0 250px; padding: 12px; background: var(--surface2); border-radius: var(--radius); display: flex; flex-direction: column; gap: 10px; cursor: pointer; transition: transform 0.3s ease; border: 1px solid rgba(255,255,255,0.05); scroll-snap-align: center; }
+        .reel-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .reel-thumb { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; background: var(--surface3); display: block; }
+        .reel-info { display: flex; flex-direction: column; gap: 4px; }
+        .reel-tag { font-size: 0.7rem; padding: 3px 8px; background: rgba(123,92,255,0.15); color: var(--accent); border-radius: 4px; align-self: flex-start; font-weight: 600; }
+        .reel-title { font-size: 0.9rem; margin: 0; color: var(--text); line-height: 1.3; }
         
+        /* BOOK */
         .book-filters { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
         .filter-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: var(--surface2); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; color: var(--text-dim); cursor: pointer; transition: all var(--transition); font-family: inherit; font-size: 0.9rem; }
         .filter-btn:hover, .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .filter-btn svg { width: 16px; height: 16px; fill: currentColor; }
         .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
         .book-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; transition: all var(--transition); cursor: pointer; border: 1px solid rgba(255,255,255,0.05); position: relative; }
         .book-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(123,92,255,0.2); }
@@ -128,6 +107,7 @@
         .book-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
         .book-card p { font-size: 0.85rem; color: var(--text-dim); }
         
+        /* CV */
         .timeline { position: relative; max-width: 800px; margin: 0 auto; }
         .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent2)); }
         .timeline-item { display: flex; gap: 40px; margin-bottom: 40px; position: relative; }
@@ -142,6 +122,7 @@
         .skill-tag { padding: 10px 20px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; font-size: 0.85rem; transition: all var(--transition); cursor: default; }
         .skill-tag:hover { background: var(--accent); color: white; transform: scale(1.05); }
         
+        /* PROJETS */
         .project-card { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 80px; background: var(--surface); padding: 40px; border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.05); }
         .project-visual { height: 350px; border-radius: var(--radius); overflow: hidden; position: relative; background: var(--surface2); }
         .project-visual-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
@@ -153,6 +134,7 @@
         .project-status .dot.active { background: var(--success); animation: pulse 2s infinite; }
         .project-status .dot.wip { background: var(--accent); }
         
+        /* LABO */
         .lab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
         .lab-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; transition: all var(--transition); border: 1px solid rgba(255,255,255,0.05); }
         .lab-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
@@ -163,6 +145,7 @@
         .lab-card h4 { font-size: 1rem; margin-bottom: 8px; }
         .lab-card p { font-size: 0.85rem; color: var(--text-dim); }
         
+        /* AGENDA */
         .agenda-apps { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
         .app-badge { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); transition: all var(--transition); text-decoration: none; color: inherit; }
         .app-badge:hover { border-color: var(--accent); transform: translateY(-4px); }
@@ -180,6 +163,7 @@
         .event-type.relax { background: rgba(0,229,178,0.2); color: var(--accent2); }
         .event-type.creatif { background: rgba(255,107,107,0.2); color: var(--danger); }
         
+        /* CONTACT */
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
         .contact-form { display: flex; flex-direction: column; gap: 20px; }
         .form-group { display: flex; flex-direction: column; gap: 8px; }
@@ -243,27 +227,7 @@
             .btn { width: 100%; }
             .reel-card { flex: 0 0 260px; }
         }
-   .email-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .email-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-  }
-  .email-link::before {
-    content: "✉️";
-    font-size: 1.2em;
-  }
-</style>    
+    </style>
 </head>
 <body>
 
@@ -297,6 +261,7 @@
 
 <section class="hero" id="accueil">
     <div class="hero-bg"></div>
+    <!-- FIX PARTICULES: Conteneur ajouté ici -->
     <div class="hero-particles" id="particles"></div>
     <div class="hero-content">
         <div class="hero-tag">Disponible pour collaborations</div>
@@ -320,7 +285,6 @@
             <div class="reel-carousel" id="reelCarousel"></div>
             <button class="reel-btn reel-next" aria-label="Suivant">›</button>
         </div>
-</div>
     </div>
 </section>
 
@@ -375,13 +339,34 @@
     <div class="container">
         <div class="section-header"><h2>Contact</h2><p>Collaboration, presse, ou juste discuter ? Je suis là.</p></div>
         <div class="contact-grid">
-            <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
-                <div class="form-group"><label for="name">Nom</label><input type="text" id="name" required placeholder="Votre nom"></div>
-                <div class="form-group"><label for="email">Email</label><input type="email" id="email" required placeholder="contact@devenphobe.com"></div>
-                <div class="form-group"><label for="type">Type de demande</label><select id="type" required><option value="">Sélectionnez...</option><option value="collab">Collaboration</option><option value="presse">Presse / Interview</option><option value="event">Événement</option><option value="autre">Autre</option></select></div>
-                <div class="form-group"><label for="message">Message</label><textarea id="message" required placeholder="Décrivez votre demande..."></textarea></div>
-                <button type="submit" class="btn btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Envoyer le message</button>
-            </form>
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xbdweajd" method="POST">
+    <div class="form-group">
+        <label for="c-name">Nom</label>
+        <input type="text" id="c-name" name="nom" required placeholder="Votre nom">
+    </div>
+    <div class="form-group">
+        <label for="c-email">Email</label>
+        <input type="email" id="c-email" name="email" required placeholder="votre@email.com">
+    </div>
+    <div class="form-group">
+        <label for="c-type">Type de demande</label>
+        <select id="c-type" name="type" required>
+            <option value="">Sélectionnez...</option>
+            <option value="collab">Collaboration</option>
+            <option value="presse">Presse / Interview</option>
+            <option value="event">Événement</option>
+            <option value="autre">Autre</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="c-message">Message</label>
+        <textarea id="c-message" name="message" required placeholder="Décrivez votre demande..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Envoyer le message
+    </button>
+</form>
             <div class="contact-info">
                 <div class="contact-info-item"><div class="contact-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><h4>Email professionnel</h4><p>contact@devenphobe.com</p></div></div>
                 <div class="contact-info-item"><div class="contact-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><h4>Disponibilité</h4><p>Réponse sous 48h. Actuellement ouvert aux collaborations sur projets BD et 3D.</p></div></div>
@@ -397,10 +382,11 @@
         <div id="laboSuggestion" style="max-width:600px; margin:60px auto 0; text-align:center;">
             <h3 style="margin-bottom:16px;">💡 Propose un sujet de labo</h3>
             <p style="color:var(--text-dim); margin-bottom:20px;">Une technique à explorer ? Un outil à tester ? Dis-moi ce qui t'intéresse !</p>
-            <div style="display:flex; gap:12px;">
-                <input type="text" id="suggestionInput" placeholder="Ex: Tutoriel rigging Blender..." style="flex:1; padding:14px; background:var(--surface2); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); color:var(--text); font-family:inherit; outline:none;">
-                <button class="btn btn-primary" onclick="submitSuggestion()">Proposer</button>
-            </div>
+            <form id="laboSuggestionForm" action="https://formspree.io/f/xbdweajd" method="POST" style="display:flex; gap:12px;">
+                <input type="hidden" name="_subject" value="🧪 Nouvelle suggestion Labo">
+                <input type="text" name="suggestion" id="laboInput" placeholder="Ex: Tutoriel rigging Blender..." required style="flex:1; padding:14px; background:var(--surface2); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); color:var(--text); font-family:inherit; outline:none;">
+                <button type="submit" class="btn btn-primary">Proposer</button>
+            </form>
         </div>
     </div>
 </section>
@@ -409,27 +395,12 @@
     <div class="container">
         <div class="footer-content">
             <div class="logo">DEVENPHOBE</div>
-                           <div class="flex gap-6">
-                    
-                    <a href="https://www.instagram.com/devenphobe" target="_blank" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-silver transition-colors cursor-hover" aria-label="Instagram">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-                    </a>
-                    <a href="https://www.tiktok.com/@devenphobe" target="_blank" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-silver transition-colors cursor-hover" aria-label="TikTok">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-                    </a>
-                    <a href="https://open.spotify.com/intl-fr/artist/2rDmQV27WZynR1Bq62C0aA" target="_blank" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-green-500 transition-colors cursor-hover" aria-label="Spotify">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 15c3-1 5-1 8 0M7 12c4-1.5 6-1.5 10 0M6 9c5-2 7-2 12 0"/></svg>
-                    </a>
-                    <a href="https://www.youtube.com/@devenphobe" target="_blank" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500 transition-colors cursor-hover" aria-label="YouTube">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg>
-                    </a>               
-                </div>
             <div class="footer-links">
                 <a href="#accueil">Accueil</a>
                 <a href="#book">Book</a>
                 <a href="#projets">Projets</a>
                 <a href="mailto:contact@devenphobe.com?subject=Contact%20via%20DevenPhobe.com&body=Bonjour%20Deven%2C%0A%0AJ%27%C3%A9cris%20concernant%20%3A%0A%5B%20d%C3%A9crivez%20votre%20demande%20%5D%0A%0AMerci%20d%27avance%20!">Contact</a>
-                <a href="">Mentions légales</a>
+                <a href="#">Mentions légales</a>
             </div>
         </div>
         <div class="footer-bottom">© 2026 Deven Phobe. Tous droits réservés. | devenphobe.com</div>
@@ -452,31 +423,27 @@
 
 <script>
 // ==========================================
-// DATA CONFIGURATION (MODIFIE ICI TON CONTENU)
+// DATA CONFIGURATION
 // ==========================================
 const reelData = [
-    { title: "Onirophobie - Couverture", tag: "BD",  image: "images/reel/bd-onirophobie-couv.jpg" },
+    { title: "Onirophobie - Couverture", tag: "BD", image: "images/reel/bd-onirophobie-couv.jpg" },
     { title: "FX Explosion - Breakdown", tag: "FX", image: "images/reel/3d-gaia.png" },
-    { title: "Personnage 3D - Low Poly", tag: "3D", image: "images/reel/3d-gaia.png" },
-    { title: "Personnage 3D - High Poly", tag: "Zbrush", image: "images/reel/dp.jpg" },
+    { title: "Personnage 3D - Low Poly", tag: "3D", image: "images/reel/dp.jpg" },
     { title: "Storyboard - Scène d'action", tag: "BD", image: "images/reel/dp.jpg" },
     { title: "Environnement - Unreal Engine", tag: "3D", image: "images/reel/dp.jpg" },
-    { title: "Concept Art - Créature", tag: "Artistique", image: "images/reel/dp.jpg" },
+    { title: "Concept Art - Créature", tag: "Artistique", image: "images/reel/dp.jpg" }
 ];
 
-// J'ai ajouté des icônes SVG/emoji aux tags pour qu'ils s'affichent correctementimage:
 const bookData = [
-    { title: "Onirophobie - Chapitre 1", desc: "Planche complète, encrage numérique", tags: [{icon:"🖌️", text:"BD"}, {icon:"✒️", text:"Encrage"}], filter: "bd", image: "images/book/bd-chap1-p8.jpg?auto=format&fit=crop&w=600&q=80" },
+    { title: "Onirophobie - Chapitre 1", desc: "Planche complète, encrage numérique", tags: [{icon:"🖌️", text:"BD"}, {icon:"✒️", text:"Encrage"}], filter: "bd", image: "images/book/bd-chap1-p8.jpg" },
     { title: "Breakdown FX - Fumée", desc: "Simulation Houdini, rendu Redshift", tags: [{icon:"🔥", text:"FX"}, {icon:"⚙️", text:"Houdini"}], filter: "fx", image: "images/book/dp.jpg" },
     { title: "Personnage RPG - 3D", desc: "Sculpture ZBrush, texturing Substance", tags: [{icon:"🧊", text:"3D"}, {icon:"🎨", text:"ZBrush"}], filter: "3d", image: "images/book/dp.jpg" },
-    { title: "Illustration - Rêve Lucide", desc: "Procreate, travail de lumière", tags: [{icon:"🎭", text:"Artistique"}, {icon:"📱", text:"Digital"}], filter: "artistique", image: "images/book/dp.jpg?auto=format&fit=crop&w=600&q=80" },
+    { title: "Illustration - Rêve Lucide", desc: "Procreate, travail de lumière", tags: [{icon:"🎭", text:"Artistique"}, {icon:"📱", text:"Digital"}], filter: "artistique", image: "images/book/dp.jpg" },
     { title: "Wireframe → Rendu Final", desc: "Processus complet Blender", tags: [{icon:"🛠️", text:"Technique"}, {icon:"🟢", text:"Blender"}], filter: "technique", image: "images/book/dp.jpg" },
     { title: "Storyboard - 13 Levels", desc: "Mise en page dynamique", tags: [{icon:"🖌️", text:"BD"}, {icon:"📐", text:"Storyboard"}], filter: "bd", image: "images/book/dp.jpg" },
     { title: "VFX - Destruction", desc: "Simulation de particules", tags: [{icon:"💥", text:"FX"}, {icon:"✨", text:"Particles"}], filter: "fx", image: "images/book/dp.jpg" },
     { title: "Environment Art", desc: "Modélisation et texturing PBR", tags: [{icon:"🏞️", text:"3D"}, {icon:"🗺️", text:"Environment"}], filter: "3d", image: "images/book/dp.jpg" },
-    { title: "Portrait - Mixed Media", desc: "Technique hybride", tags: [{icon:"👤", text:"Artistique"}, {icon:"🖍️", text:"Traditionnel"}], filter: "artistique", image: "images/book/dp.jpg" },
-    { title: "Environment Art", desc: "Modélisation et texturing PBR", tags: [{icon:"🏞️", text:"3D"}, {icon:"🗺️", text:"Environment"}], filter: "3d", image: "images/book/dp.jpg" },
-    { title: "Portrait - Mixed Media", desc: "Technique hybride", tags: [{icon:"👤", text:"Artistique"}, {icon:"🖍️", text:"Traditionnel"}], filter: "artistique", image: "images/book/dp.jpg" },
+    { title: "Portrait - Mixed Media", desc: "Technique hybride", tags: [{icon:"👤", text:"Artistique"}, {icon:"🖍️", text:"Traditionnel"}], filter: "artistique", image: "images/book/dp.jpg" }
 ];
 
 const cvData = [
@@ -484,36 +451,35 @@ const cvData = [
     { year: "2022", title: "3D Artist - Studio Indie", desc: "Modélisation de personnages et environnements pour jeux vidéo. Pipeline complet Blender/Unity.", type: "3D" },
     { year: "2020", title: "FX Artist - Court-métrage", desc: "Simulation de particules et effets visuels pour productions cinématographiques. Houdini/Nuke.", type: "FX" },
     { year: "2018", title: "Dessinateur BD - Freelance", desc: "Collaborations sur plusieurs projets BD. Storyboard, encrage, colorisation numérique.", type: "BD" },
-    { year: "2016", title: "Formation Beaux-Arts", desc: "Spécialisation illustration et arts numériques. Développement de la vision créative et technique.", type: "Formation" },
+    { year: "2016", title: "Formation Beaux-Arts", desc: "Spécialisation illustration et arts numériques. Développement de la vision créative et technique.", type: "Formation" }
 ];
 
-const skillsData = ["Blender", "ZBrush", "Substance Painter", "Unreal Engine", "Photoshop", "CapCut", "Storyboard", "Illustrator", "Clip Studio Paint", "Marvelous Designer", "Rigging", "Texturing PBR", "Scénario", "Direction Artistique", "Composition", "Anatomie" , "IA"      
-];
+const skillsData = ["Blender", "ZBrush", "Houdini", "Substance Painter", "Unity", "Unreal Engine", "Photoshop", "Procreate", "After Effects", "Nuke", "Storyboard Pro", "Illustrator", "Clip Studio Paint", "Marvelous Designer", "Rigging", "Texturing PBR", "Scénario", "Direction Artistique", "Composition", "Anatomie"];
 
 const projectsData = [
-    { title: "ONIROPHOBIE", desc: "Un univers où les rêves prennent vie... et deviennent mortels. Un manga/thriller psychologique explorant les peurs les plus profondes de l'humanité.", status: "En cours", statusType: "active", image: "images/book/dp.jpg?auto=format&fit=crop&w=800&q=80", tags: ["Manga", "Thriller", "Psychologique"] },
-    { title: "13 LEVELS", desc: "Spin-off de l'univers Onirophobie. Une série explorant les 13 niveaux de conscience, chaque niveau révélant une nouvelle phobie et un nouveau challenge.", status: "En développement", statusType: "wip", image: "images/book/dp.jpg?auto=format&fit=crop&w=800&q=80", tags: ["Spin-off", "Série", "Exploration"] }
+    { title: "ONIROPHOBIE", desc: "Un univers où les rêves prennent vie... et deviennent mortels. Un manga/thriller psychologique explorant les peurs les plus profondes de l'humanité.", status: "En cours", statusType: "active", image: "images/projets/onirophobie-banner.jpg", tags: ["Manga", "Thriller", "Psychologique"] },
+    { title: "13 LEVELS", desc: "Spin-off de l'univers Onirophobie. Une série explorant les 13 niveaux de conscience, chaque niveau révélant une nouvelle phobie et un nouveau challenge.", status: "En développement", statusType: "wip", image: "images/projets/dp.jpg", tags: ["Spin-off", "Série", "Exploration"] }
 ];
 
 const labData = [
-    { title: "Test IA - Génération de textures", desc: "Exploration des outils IA pour accélérer le workflow de texturing.", date: "15 Nov 2024", image: "images/book/dp.jpg" },
-    { title: "Croquis - Anatomie expressive", desc: "Étude des proportions et du mouvement pour les personnages.", date: "08 Nov 2024", image: "images/book/dp.jpg" },
-    { title: "Moodboard - Univers Onirophobie", desc: "Collection de références visuelles pour la direction artistique.", date: "01 Nov 2024", image: "images/book/dp.jpg?auto=format&fit=crop&w=400&q=80" },
-    { title: "Erreur de rigging - Ce que j'ai appris", desc: "Analyse d'un problème technique et solutions trouvées.", date: "25 Oct 2024", image: "images/book/dp.jpg?auto=format&fit=crop&w=400&q=80" },
-    { title: "Setup Blender - Raccourcis essentiels", desc: "Mes raccourcis personnalisés pour optimiser le workflow.", date: "18 Oct 2024", image: "images/book/dp.jpg?auto=format&fit=crop&w=400&q=80" },
-    { title: "Photo atelier - Mon espace de création", desc: "Tour de mon setup créatif : écrans, tablette, carnet de croquis.", date: "10 Oct 2024", image: "images/book/dp.jpg?auto=format&fit=crop&w=400&q=80" },
+    { title: "Test IA - Génération de textures", desc: "Exploration des outils IA pour accélérer le workflow de texturing.", date: "15 Nov 2024", image: "images/labo/test-ia.jpg" },
+    { title: "Croquis - Anatomie expressive", desc: "Étude des proportions et du mouvement pour les personnages.", date: "08 Nov 2024", image: "images/labo/dp.jpg" },
+    { title: "Moodboard - Univers Onirophobie", desc: "Collection de références visuelles pour la direction artistique.", date: "01 Nov 2024", image: "images/labo/dp.jpg" },
+    { title: "Erreur de rigging - Ce que j'ai appris", desc: "Analyse d'un problème technique et solutions trouvées.", date: "25 Oct 2024", image: "images/labo/dp.jpg" },
+    { title: "Setup Blender - Raccourcis essentiels", desc: "Mes raccourcis personnalisés pour optimiser le workflow.", date: "18 Oct 2024", image: "images/labo/dp.jpg" },
+    { title: "Photo atelier - Mon espace de création", desc: "Tour de mon setup créatif : écrans, tablette, carnet de croquis.", date: "10 Oct 2024", image: "images/labo/dp.jpg" }
 ];
 
 const appsData = [
     { name: "Frimake", icon: "🎯", link: "#" },
     { name: "MeetUp", icon: "👥", link: "#" },
-    { name: "Knockk", icon: "🚀", link: "#" },
+    { name: "Knockk", icon: "🚀", link: "#" }
 ];
 
 const eventsData = [
     { day: "28", month: "Nov", title: "Session dessin collaboratif", type: "creatif", typeName: "Créatif", desc: "Frimake - Café Créatif Paris" },
     { day: "05", month: "Déc", title: "Networking Jeux Vidéo", type: "networking", typeName: "Networking", desc: "MeetUp - Indie Dev Paris" },
-    { day: "12", month: "Déc", title: "Escape game créatif", type: "relax", typeName: "Détente", desc: "Knockk - Paris 11ème" },
+    { day: "12", month: "Déc", title: "Escape game créatif", type: "relax", typeName: "Détente", desc: "Knockk - Paris 11ème" }
 ];
 
 // ==========================================
@@ -525,10 +491,7 @@ function renderReel() {
     document.getElementById('reelCarousel').innerHTML = reelData.map((item, index) => `
         <div class="reel-card" onclick="openReelLightbox(${index})">
             <img class="reel-thumb" src="${item.image}" alt="${item.title}" loading="lazy">
-            <div class="reel-info">
-                <span class="reel-tag">${item.tag}</span>
-                <h4 class="reel-title">${item.title}</h4>
-            </div>
+            <div class="reel-info"><span class="reel-tag">${item.tag}</span><h4 class="reel-title">${item.title}</h4></div>
         </div>
     `).join('');
 }
@@ -543,9 +506,7 @@ function renderFilters() {
         { id: '3d', label: '3D Jeux Vidéo', icon: '🧊' }
     ];
     document.getElementById('bookFilters').innerHTML = filters.map(f => `
-        <button class="filter-btn ${currentBookFilter === f.id ? 'active' : ''}" data-filter="${f.id}">
-            ${f.icon} ${f.label}
-        </button>
+        <button class="filter-btn ${currentBookFilter === f.id ? 'active' : ''}" data-filter="${f.id}">${f.icon} ${f.label}</button>
     `).join('');
 }
 
@@ -555,11 +516,8 @@ function renderBook() {
         <div class="book-card" data-index="${bookData.indexOf(item)}">
             <div class="book-card-img"><img src="${item.image}" alt="${item.title}" loading="lazy"></div>
             <div class="book-card-content">
-                <div class="book-card-tags">
-                    ${item.tags.map(t => `<span>${t.icon} ${t.text}</span>`).join('')}
-                </div>
-                <h3>${item.title}</h3>
-                <p>${item.desc}</p>
+                <div class="book-card-tags">${item.tags.map(t => `<span>${t.icon} ${t.text}</span>`).join('')}</div>
+                <h3>${item.title}</h3><p>${item.desc}</p>
             </div>
         </div>
     `).join('');
@@ -599,7 +557,6 @@ function renderAgenda() {
     document.getElementById('agendaApps').innerHTML = appsData.map(a => `
         <a href="${a.link}" target="_blank" class="app-badge"><div class="app-badge-icon">${a.icon}</div><div><h4 style="font-size:1rem;">${a.name}</h4><p style="font-size:0.8rem; color:var(--text-dim);">Retrouve-moi →</p></div></a>
     `).join('');
-    
     document.getElementById('eventsList').innerHTML = eventsData.map(e => `
         <div class="event-card">
             <div class="event-date"><div class="day">${e.day}</div><div class="month">${e.month}</div></div>
@@ -608,16 +565,41 @@ function renderAgenda() {
     `).join('');
 }
 
-// LIGHTBOX ROBUSTE (Ne s'ouvre QUE sur clic carte, ne se déclenche pas sur vide)
+// FIX PARTICULES: Fonction optimisée et garantie d'exécution
+function createParticles() {
+    const container = document.getElementById('particles');
+    if (!container) return;
+    container.innerHTML = ''; // Nettoyage de sécurité
+    for (let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+        p.style.animationDelay = Math.random() * 8 + 's';
+        p.style.animationDuration = (6 + Math.random() * 8) + 's';
+        p.style.background = Math.random() > 0.5 ? 'var(--accent)' : 'var(--accent2)';
+        container.appendChild(p);
+    }
+}
+
+function openReelLightbox(index) {
+    const item = reelData[index]; if (!item) return;
+    document.getElementById('lightboxImg').src = item.image || '';
+    document.getElementById('lightboxTitle').textContent = item.title;
+    document.getElementById('lightboxDesc').textContent = item.tag + ' - Travail récent';
+    document.getElementById('lightboxTools').textContent = item.tag;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
 function openLightbox(index) {
-    const item = bookData[index];
-    if (!item) return;
-    const lb = document.getElementById('lightbox');
+    const item = bookData[index]; if (!item) return;
     document.getElementById('lightboxImg').src = item.image || '';
     document.getElementById('lightboxTitle').textContent = item.title;
     document.getElementById('lightboxDesc').textContent = item.desc;
     document.getElementById('lightboxTools').textContent = item.tags.map(t => `${t.icon} ${t.text}`).join(' • ');
-    lb.classList.add('active');
+    document.getElementById('lightbox').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
@@ -633,164 +615,91 @@ function showToast(message) {
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// EVENT LISTENERS
-document.addEventListener('DOMContentLoaded', () => {
-    renderReel();
-    renderFilters();
-    renderBook();
-    renderTimeline();
-    renderSkills();
-    renderProjects();
-    renderLab();
-    renderAgenda();
-    
-    // Filtres Book
-    document.getElementById('bookFilters').addEventListener('click', e => {
-        const btn = e.target.closest('.filter-btn');
-        if (btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentBookFilter = btn.dataset.filter;
-            renderBook();
+function toggleFaq(el) { el.parentElement.classList.toggle('active'); }
+
+// 📧 Gestion Contact Form (AJAX sans rechargement)
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Envoi en cours...';
+    btn.disabled = true;
+
+    try {
+        const res = await fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+            showToast('✅ Message envoyé avec succès ! Réponse sous 48h.');
+            this.reset();
+        } else {
+            showToast('❌ Erreur lors de l\'envoi. Réessaie plus tard.');
         }
-    });
-    
-    // Clic Book Grid -> Lightbox (Délégation propre)
-    document.getElementById('bookGrid').addEventListener('click', e => {
-        const card = e.target.closest('.book-card');
-        if (card && card.dataset.index !== undefined) {
-            openLightbox(parseInt(card.dataset.index));
-        }
-    });
-    
-    // Fermeture Lightbox
-    document.getElementById('lightbox').addEventListener('click', e => {
-        if (e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) closeLightbox();
-    });
-    document.getElementById('lightboxContent').addEventListener('click', e => e.stopPropagation());
-    
-    // Mobile Menu
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuToggle.addEventListener('click', () => { menuToggle.classList.toggle('active'); mobileMenu.classList.toggle('active'); });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menuToggle.classList.remove('active'); mobileMenu.classList.remove('active'); }));
-    
-    // FAQ
-    document.querySelectorAll('.faq-question').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('active')));
-    
-    // Scroll Navbar
-    window.addEventListener('scroll', () => {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-    });
-    
-    // Form
-    document.getElementById('contactForm').addEventListener('submit', e => { e.preventDefault(); showToast(`✅ Message envoyé !`); e.target.reset(); });
-    document.getElementById('suggestionInput').addEventListener('keydown', e => { if(e.key==='Enter') submitSuggestion(); });
-    document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+    } catch (err) {
+        showToast('❌ Problème de connexion.');
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
 });
 
-function submitSuggestion() {
-    const input = document.getElementById('suggestionInput');
-    if(input.value.trim()) { showToast('💡 Suggestion envoyée !'); input.value = ''; }
-}
-function handleContactSubmit(e) { e.preventDefault(); showToast('✅ Message envoyé !'); e.target.reset(); }
+// 🧪 Gestion Labo Suggestion
+document.getElementById('laboSuggestionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button');
+    btn.textContent = '...';
+    
+    try {
+        const res = await fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+            showToast('💡 Suggestion enregistrée ! Merci pour l\'idée.');
+            this.reset();
+        } else {
+            showToast('❌ Échec de l\'envoi.');
+        }
+    } catch (err) {
+        showToast('❌ Erreur réseau.');
+    } finally {
+        btn.textContent = 'Proposer';
+    }
+});
 
-// 🎠 Carrousel 
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
+    createParticles(); // Activation immédiate et sécurisée
+    renderReel(); renderFilters(); renderBook(); renderTimeline(); renderSkills(); renderProjects(); renderLab(); renderAgenda();
+    
+    document.getElementById('bookFilters').addEventListener('click', e => {
+        const btn = e.target.closest('.filter-btn');
+        if (btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentBookFilter = btn.dataset.filter; renderBook(); }
+    });
+    document.getElementById('bookGrid').addEventListener('click', e => { const card = e.target.closest('.book-card'); if (card) openLightbox(parseInt(card.dataset.index)); });
+    document.getElementById('lightbox').addEventListener('click', e => { if (e.target.id === 'lightbox' || e.target.classList.contains('lightbox-close')) closeLightbox(); });
+    document.getElementById('lightboxContent').addEventListener('click', e => e.stopPropagation());
+    document.querySelector('.menu-toggle').addEventListener('click', function() { this.classList.toggle('active'); document.getElementById('mobileMenu').classList.toggle('active'); });
+    document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('click', () => { document.querySelector('.menu-toggle').classList.remove('active'); document.getElementById('mobileMenu').classList.remove('active'); }));
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+    
+    // Carousel buttons
     const carousel = document.getElementById('reelCarousel');
     const prevBtn = document.querySelector('.reel-prev');
     const nextBtn = document.querySelector('.reel-next');
-    const scrollStep = 320; // largeur carte + gap
-
-    if (carousel && prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            carousel.scrollBy({ left: -scrollStep, behavior: 'smooth' });
-        });
-        nextBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            carousel.scrollBy({ left: scrollStep, behavior: 'smooth' });
-        });
+    const scrollStep = 320;
+    if(carousel && prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', e => { e.stopPropagation(); carousel.scrollBy({ left: -scrollStep, behavior: 'smooth' }); });
+        nextBtn.addEventListener('click', e => { e.stopPropagation(); carousel.scrollBy({ left: scrollStep, behavior: 'smooth' }); });
     }
 });
-
-// Boutons
-btnPrev.addEventListener('click', e => { e.stopPropagation(); carousel.scrollBy({ left: -CARD_SCROLL, behavior: 'smooth' }); });
-btnNext.addEventListener('click', e => { e.stopPropagation(); carousel.scrollBy({ left: CARD_SCROLL, behavior: 'smooth' }); });
-
-// Scroll par position souris (zones à 20% sur les bords)
-wrapper.addEventListener('mousemove', e => {
-    const rect = wrapper.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const threshold = rect.width * 0.2;
-    const speed = 3; // px/frame
-
-    if (x < threshold) {
-        cancelAnimationFrame(scrollRAF);
-        const step = () => { carousel.scrollLeft -= speed; scrollRAF = requestAnimationFrame(step); };
-        scrollRAF = requestAnimationFrame(step);
-    } else if (x > rect.width - threshold) {
-        cancelAnimationFrame(scrollRAF);
-        const step = () => { carousel.scrollLeft += speed; scrollRAF = requestAnimationFrame(step); };
-        scrollRAF = requestAnimationFrame(step);
-    } else {
-        cancelAnimationFrame(scrollRAF);
-    }
-});
-
-wrapper.addEventListener('mouseleave', () => cancelAnimationFrame(scrollRAF));
-
-// Auto-scroll doux en idle (reprend après 3s sans interaction)
-let idleTimer;
-function startIdleScroll() {
-    idleTimer = setInterval(() => {
-        if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 10) {
-            carousel.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-            carousel.scrollBy({ left: 1, behavior: 'auto' });
-        }
-    }, 40);
-}
-wrapper.addEventListener('mouseenter', () => { clearInterval(idleTimer); });
-wrapper.addEventListener('mouseleave', () => { idleTimer = setTimeout(startIdleScroll, 3000); });
-
-// Init
-setTimeout(startIdleScroll, 2000);
-
-// Lightbox pour le carrousel Travaux Récents
-function openReelLightbox(index) {
-    const item = reelData[index];
-    if (!item) return;
-    const lb = document.getElementById('lightbox');
-    document.getElementById('lightboxImg').src = item.image || '';
-    document.getElementById('lightboxTitle').textContent = item.title;
-    document.getElementById('lightboxDesc').textContent = item.tag + ' - © Deven Phobe. Tous droits réservés.';
-    document.getElementById('lightboxTools').textContent = item.tag;
-    lb.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function createParticles() {
-    const container = document.getElementById('particles');
-    if (!container) return;
-    container.innerHTML = '';
-    for (let i = 0; i < 30; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.top = Math.random() * 100 + '%';
-        p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
-        p.style.animationDelay = Math.random() * 8 + 's';
-        p.style.animationDuration = (6 + Math.random() * 6) + 's';
-        if (Math.random() > 0.5) p.style.background = 'var(--accent2)';
-        container.appendChild(p);
-    }
-}
-
-// Appel au chargement du DOM (à placer dans ton écouteur existant)
-document.addEventListener('DOMContentLoaded', createParticles);
-
-
 </script>
 </body>
 </html>
